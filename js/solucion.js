@@ -15,14 +15,44 @@ const carta = "bici coche balón _playstation bici coche peluche";
 function listGifts(letter) {
   // ¡Tú puedes!
 
-  return {};
+  let arrRegalos = letter.split(" ");
+  let lista = {};
+  for (let el of arrRegalos) {
+    // Se ignoran aquellos casos en los que el regalo empieza por "_" o que es un espacio en blanco " "
+    if (el.startsWith("_") || el === "") {
+      continue;
+    }
+    if (lista.hasOwnProperty(el)) {
+      lista[el] = lista[el] + 1;
+    } else {
+      lista[el] = 1;
+    }
+  }
+
+  return lista;
 }
+
+// Función para mostrar los regalos en el contenedor de index.html
+
+const mostrarLista = (regalos) => {
+  if (Object.keys(regalos).length > 0) {
+    const info = JSON.stringify(regalos, null, 4);
+    let container = document.getElementById("container");
+    let pre = document.createElement("pre");
+    let code = document.createElement("code");
+    code.textContent = info;
+    pre.append(code);
+    container.append(pre);
+    return true;
+  }
+  return false;
+};
 
 // Al ejecutar el método debería devolver lo siguiente:
 
 const regalos = listGifts(carta);
 
-console.log(regalos);
+mostrarLista(regalos);
 /*
 {
   bici: 2,
